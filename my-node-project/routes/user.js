@@ -1,58 +1,41 @@
 // routes/user.js
-
 const express = require('express');
-const bcrypt = require('bcrypt');
-const User = require('../models/user');
-const Organisation = require('../models/organisation');
-const jwt = require('jsonwebtoken');
-const errorHandler = require('../middleware/error-handler');
+const { User } = require('../models');
+const authenticate = require('../middleware/authenticate');
 
 const router = express.Router();
 
-router.post('/register', async (req, res, next) => {
+// Get User Record Endpoint
+router.get('/:id', authenticate, async (req, res, next) => {
   try {
-    const { firstName, lastName, email, password, phone } = req.body;
+    const { id } = req.params;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({
-      userId: `${firstName.toLowerCase()}-${Date.now()}`,
-      firstName,
-      lastName,
-      email,
-      password: hashedPassword,
-      phone
-    });
+    // Retrieve the user record from the database
+    const user = await User.findOne({ where: { userId: id } });
 
-    const organisation = await Organisation.create({
-      orgId: `${firstName.toLowerCase()}-org-${Date.now()}`,
-      name: `${firstName}'s Organisation`,
-      description: 'Default organisation'
-    });
+    if (!user) {
+      return res.status(404).json({
+        status: 'Not Found',
+        message: 'User not found'
+      });
+    }
 
-    await user.addOrganisation(organisation);
-
-    const accessToken = jwt.sign({ userId: user.userId }, 'your_secret_key', { expiresIn: '1h' });
-
-    res.status(201).json({
+    // Return the user data in the response
+    res.status(200).json({
       status: 'success',
-      message: 'Registration successful',
+      message: 'User record retrieved successfully',
       data: {
-        accessToken,
-        user: {
-          userId: user.userId,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          phone: user.phone
-        }
+        userId: user.userId,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        phone: user.phone
       }
     });
   } catch (err) {
     next(err);
   }
 });
-
-router.use(errorHandler);
 
 module.exports = router;
 

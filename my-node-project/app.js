@@ -1,20 +1,25 @@
+// app.js
 const express = require('express');
-const sequelize = require('./config/database');
-const userRoutes = require('./routes/user');
 const organisationRoutes = require('./routes/organisation');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
 app.use(express.json());
-app.use('/auth', userRoutes);
 app.use('/api/organisations', organisationRoutes);
+app.use('/auth', authRoutes);
 
-// Sync models and start the server
-sequelize.sync().then(() => {
-  app.listen(3000, () => {
-    console.log('Server is running on http://localhost:3000');
+// Error handling middleware should be the last middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    status: 'error',
+    message: 'Something went wrong',
   });
-}).catch(err => {
-  console.error('Unable to connect to the database:', err);
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
 

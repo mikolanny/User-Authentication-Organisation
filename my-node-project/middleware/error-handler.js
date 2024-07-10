@@ -1,19 +1,10 @@
+
 // middleware/error-handler.js
-
-function errorHandler(err, req, res, next) {
-  if (err.name === 'SequelizeValidationError') {
-    const errors = err.errors.map(error => ({
-      field: error.path,
-      message: error.message
-    }));
-
-    return res.status(422).json({
-      errors: errors
-    });
-  }
-
-  next(err);
-}
-
-module.exports = errorHandler;
+module.exports = (err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    status: 'error',
+    message: 'Something went wrong',
+  });
+};
 
