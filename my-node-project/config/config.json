@@ -1,24 +1,24 @@
 {
   "development": {
     "username": "postgres",
-    "password": "your_password",
+    "password": "mikolanny",
     "database": "my_database",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
-    "password": "your_password",
+    "password": "mikolanny",
     "database": "my_database_test",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
     "username": "postgres",
-    "password": "your_password",
+    "password": "mikolanny",
     "database": "my_database_production",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }
 }
-}
+
