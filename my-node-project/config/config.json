@@ -1,23 +1,20 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "mikolanny",
-    "database": "my_database",
-    "host": "127.0.0.1",
+    "username": "mikolanny",
+    "password": "olaniyan456",
+    "database": "postgres",
+    "host": "aws-0-eu-west-2.pooler.supabase.com",
     "dialect": "postgres"
   },
   "test": {
-    "username": "postgres",
-    "password": "mikolanny",
-    "database": "my_database_test",
-    "host": "127.0.0.1",
+    "username": "mikolanny",
+    "password": "olaniyan456",
+    "database": "postgres",
+    "host": "aws-0-eu-west-2.pooler.supabase.com",
     "dialect": "postgres"
   },
   "production": {
-    "username": "postgres",
-    "password": "mikolanny",
-    "database": "my_database_production",
-    "host": "127.0.0.1",
+    "use_env_variable": "postgresql://postgres.nwatcyvtzgkllbebmtlr:[olaniyan456]@aws-0-eu-west-2.pooler.supabase.com:6543/postgres",
     "dialect": "postgres"
   }
 }
